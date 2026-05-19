@@ -39,7 +39,7 @@ jobs:
       - name: Build Image
         uses: blue-build/github-action@v1
         with:
-          recipe: recipes/recipe.yml
-          cosign_private_key: ${{ secrets.SIGNING_SECRET }}
+          recipe: recipe.yml          # action prepends ./recipes/ automatically
           registry_token: ${{ secrets.GITHUB_TOKEN }}
           pr_event_number: ${{ github.event.number }}
+          build_opts: --no-sign       # remove to enable cosign signing
