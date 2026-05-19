@@ -1,0 +1,129 @@
+name: aurora-custom
+description: Custom Aurora DX NVIDIA image for zacaj
+base-image: ghcr.io/ublue-os/aurora-dx-nvidia-open
+image-version: stable
+
+modules:
+  - type: rpm-ostree
+    repos:
+      - https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{VERSION_ID}}.noarch.rpm
+      - https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{VERSION_ID}}.noarch.rpm
+    install:
+      - btrfs-assistant
+      - cronie-anacron
+      - gparted
+      - keyd
+      - kwin-x11
+      - plasma-workspace-x11
+      - ptyxis
+      - snapper
+      - waydroid
+      - webkitgtk6.0
+      - x11vnc
+      - xorgxrdp-glamor
+      - xpra
+    remove:
+      # Aurora-specific packages — uncomment to remove
+      #
+      # --- Input devices / peripherals ---
+      # - input-remapper        # GUI for remapping input devices
+      # - openrgb-udev-rules    # RGB lighting controller udev rules
+      # - oversteer-udev        # Steering wheel / game controller udev
+      # - solaar-udev           # Logitech device udev rules
+      # - kairpods              # AirPods battery/controls in KDE
+      #
+      # --- Audio/streaming ---
+      # - sunshine              # Moonlight game streaming server
+      #
+      # --- IME / international input ---
+      # - fcitx5-chewing
+      # - fcitx5-chinese-addons
+      # - fcitx5-configtool
+      # - fcitx5-gtk
+      # - fcitx5-hangul
+      # - fcitx5-libthai
+      # - fcitx5-m17n
+      # - fcitx5-mozc
+      # - fcitx5-qt
+      # - fcitx5-sayura
+      # - fcitx5-unikey
+      # - kcm-fcitx5
+      #
+      # --- Enterprise auth (Kerberos / Samba) ---
+      # - krb5-workstation
+      # - samba-winbind
+      # - samba-winbind-clients
+      #
+      # --- YubiKey / hardware security keys ---
+      # - yubikey-manager
+      # - pam_yubico
+      # - pamu2fcfg
+      # - pam-u2f
+      #
+      # --- Backup tools ---
+      # - borgbackup
+      # - rclone
+      # - restic
+      #
+      # --- Extra shells ---
+      # - fish
+      # - zsh
+      #
+      # --- Miscellaneous ---
+      # - uld                   # Samsung printer driver
+      # - tailscale             # Tailscale VPN
+      #
+      # --- DX variant extras ---
+      # - cockpit               # Web-based admin panel
+      # - cockpit-machines
+      # - cockpit-podman
+      # - cockpit-storaged
+      # - incus                 # LXC-based container runtime
+      # - lxc
+      # - virt-manager          # QEMU/KVM GUI (keep if using VMs)
+      # - virt-viewer
+      # - virt-v2v
+      # - kcli                  # Cloud/VM provisioning CLI
+
+  - type: script
+    snippets:
+      - |
+        # Install vendor RPMs directly from their release pages.
+        # Update these URLs when new versions are released.
+        RUSTDESK_VER="1.4.6"
+        curl -fsSL -o /tmp/rustdesk.rpm \
+          "https://github.com/rustdesk/rustdesk/releases/download/${RUSTDESK_VER}/rustdesk-${RUSTDESK_VER}-0.x86_64.rpm"
+        rpm-ostree install /tmp/rustdesk.rpm
+        rm /tmp/rustdesk.rpm
+
+        # RealVNC Viewer — download URL from https://www.realvnc.com/en/connect/download/viewer/linux/
+        # REALVNC_VER="7.15.0.17"
+        # curl -fsSL -o /tmp/realvnc.rpm \
+        #   "https://downloads.realvnc.com/download/file/viewer.files/VNC-Viewer-${REALVNC_VER}-Linux-x64.rpm"
+        # rpm-ostree install /tmp/realvnc.rpm
+        # rm /tmp/realvnc.rpm
+
+  - type: script
+    snippets:
+      - |
+        # Remove Aurora branding/files injected directly into the image (not via packages).
+        # These cannot be removed with rpm-ostree override remove — only shell rm works.
+        #
+        # Wallpapers
+        # rm -rf /usr/share/wallpapers/aurora-wallpaper-{1..12}
+        # rm -rf /usr/share/wallpapers/greg-rakozy-aurora
+        # rm -rf /usr/share/wallpapers/jonatan-pie-aurora
+        #
+        # Logo / icon assets
+        # rm -f /usr/share/pixmaps/aurora-banner.svg
+        # rm -f /usr/share/icons/hicolor/scalable/places/auroralogo-*.svg
+        # rm -f /usr/share/icons/hicolor/scalable/apps/aurora-*.svg
+        #
+        # Bazaar flatpak manager config (controls which flatpaks auto-install on first boot)
+        # rm -rf /etc/bazaar/
+        # rm -f /usr/share/ublue-os/homebrew/system-flatpaks.Brewfile
+        # rm -f /usr/share/ublue-os/homebrew/system-dx-flatpaks.Brewfile
+        #
+        # Aurora-injected shell defaults
+        # rm -f /etc/zsh/zshrc /etc/zsh/zshenv /etc/zsh/zprofile /etc/zsh/zlogin /etc/zsh/zlogout
+        echo "done"
