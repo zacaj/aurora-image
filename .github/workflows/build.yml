@@ -21,6 +21,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Check for unapproved upstream packages
+        run: |
+          docker pull ghcr.io/ublue-os/aurora-dx-nvidia-open:stable
+          NEW=$(comm -23 \
+            <(docker run --rm ghcr.io/ublue-os/aurora-dx-nvidia-open:stable \
+                rpm -qa --queryformat '%{NAME}\n' | sort) \
+            <(sort packages.lock))
+          if [ -n "$NEW" ]; then
+            echo "::error::New packages in upstream Aurora image require approval."
+            echo "Run 'scripts/update-lock.sh' locally and commit packages.lock to approve:"
+            echo "$NEW" | sed 's/^/  + /'
+            exit 1
+          fi
+          echo "Package whitelist OK"
+
       - name: Build Image
         uses: blue-build/github-action@v1
         with:
