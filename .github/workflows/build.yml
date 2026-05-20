@@ -23,9 +23,9 @@ jobs:
 
       - name: Check for unapproved upstream packages
         run: |
-          docker pull ghcr.io/ublue-os/aurora-dx-nvidia-open:stable
+          podman pull ghcr.io/ublue-os/aurora-dx-nvidia-open:stable
           NEW=$(comm -23 \
-            <(docker run --rm ghcr.io/ublue-os/aurora-dx-nvidia-open:stable \
+            <(podman run --rm ghcr.io/ublue-os/aurora-dx-nvidia-open:stable \
                 rpm -qa --queryformat '%{NAME}\n' | LC_ALL=C sort) \
             <(LC_ALL=C sort packages.lock))
           if [ -n "$NEW" ]; then
