@@ -41,5 +41,5 @@ jobs:
         with:
           recipe: recipe.yml          # action prepends ./recipes/ automatically
           registry_token: ${{ secrets.GITHUB_TOKEN }}
+          cosign_private_key: ${{ secrets.SIGNING_SECRET }}
           pr_event_number: ${{ github.event.number }}
-          build_opts: --no-sign       # remove to enable cosign signing
