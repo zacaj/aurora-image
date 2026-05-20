@@ -67,7 +67,6 @@ avahi-libs
 avahi-tools
 b43-fwcutter
 b43-openfwwf
-baloo-widgets
 bash
 bash-color-prompt
 bash-completion
@@ -89,7 +88,6 @@ boost-chrono
 boost-container
 boost-date-time
 boost-filesystem
-boost-program-options
 boost-regex
 boost-thread
 bootc
@@ -107,7 +105,6 @@ breeze-icon-theme
 brlapi
 brltty
 bsdunzip
-btrfsmaintenance
 btrfs-progs
 bubblewrap
 buildah
@@ -172,10 +169,7 @@ cracklib
 cracklib-dicts
 criu
 criu-libs
-cronie
-crontabs
 crun
-cryfs
 crypto-policies
 crypto-policies-scripts
 cryptsetup
@@ -450,6 +444,7 @@ game-music-emu
 gawk
 gawk-all-langpacks
 gcc
+gcc-c++
 gcr-libs
 gd
 gdb
@@ -635,13 +630,11 @@ gvisor-tap-vsock-gvforwarder
 gvnc
 gzip
 harfbuzz
-harfbuzz-icu
 hdparm
 hexedit
 hfsplus-tools
 hfsutils
 hicolor-icon-theme
-hidapi
 highway
 hiredis
 hivex-libs
@@ -664,7 +657,6 @@ hyperv-daemons-license
 hypervfcopyd
 hypervkvpd
 hypervvssd
-hyphen
 i2c-tools
 ibus
 ibus-anthy
@@ -689,7 +681,6 @@ ima-evm-utils-libs
 ImageMagick
 ImageMagick-libs
 imath
-imlib2
 incus
 incus-agent
 incus-client
@@ -728,7 +719,6 @@ iwlwifi-mld-firmware
 iwlwifi-mvm-firmware
 jansson
 jasper-libs
-javascriptcoregtk6.0
 jbig2dec-libs
 jbigkit-libs
 jfsutils
@@ -972,7 +962,6 @@ kwayland
 kwin
 kwin-common
 kwin-libs
-kwin-x11-libs
 kwrite
 kwrited
 kyotocabinet-libs
@@ -1039,8 +1028,6 @@ libbpf
 libbrotli
 libbs2b
 libbsd
-libbtrfs
-libbtrfsutil
 libburn
 libbytesize
 libcaca
@@ -1115,14 +1102,12 @@ libfreeaptx
 libfsverity
 libftdi
 libfyaml
-libgbinder
 libgcc
 libgcrypt
 libgfapi0
 libgfortran
 libgfrpc0
 libgfxdr0
-libglibutil
 libglusterfs0
 libglvnd
 libglvnd-egl
@@ -1197,7 +1182,6 @@ liblouisutdml
 liblouisutdml-utils
 liblqr-1
 libluksmeta
-libmanette
 libmaxminddb
 libmbim
 libmbim-utils
@@ -1266,8 +1250,6 @@ libpmem
 libpmemobj
 libpng
 libpng-devel
-libportal
-libportal-gtk4
 libppd
 libproxy
 libproxy-bin
@@ -1316,7 +1298,6 @@ libsndfile
 libsodium
 libsolv
 libsoup3
-libspectre
 libsrtp
 libss
 libssh
@@ -1328,6 +1309,7 @@ libsss_idmap
 libsss_nss_idmap
 libsss_sudo
 libstdc++
+libstdc++-devel
 libstemmer
 libswresample
 libswscale
@@ -1445,7 +1427,6 @@ libXcursor
 libxcvt
 libXdamage
 libXdmcp
-libxdo
 libxdp
 libXext
 libXfixes
@@ -1866,6 +1847,7 @@ plasma-integration
 plasma-integration-qt5
 plasma-keyboard
 plasma-login-manager
+plasma-lookandfeel-fedora
 plasma-milou
 plasma-nm
 plasma-nm-openconnect
@@ -1968,7 +1950,6 @@ python3-evdev
 python3-fido2
 python3-file-magic
 python3-firewall
-python3-gbinder
 python3-gobject
 python3-gobject-base
 python3-h11
@@ -1999,7 +1980,6 @@ python3-linux-procfs
 python3-llfuse
 python3-louis
 python3-lxml
-python3-lz4
 python3-markupsafe
 python3-more-itertools
 python3-msgpack
@@ -2199,7 +2179,6 @@ qt6-qtpdf
 qt6-qtpositioning
 qt6-qtquick3d
 qt6-qtquicktimeline
-qt6-qtsensors
 qt6-qtserialport
 qt6-qtshadertools
 qt6-qtspeech
@@ -2302,7 +2281,6 @@ slirp4netns
 SLOF
 smartmontools
 smartmontools-selinux
-snapper-libs
 snappy
 socat
 solaar-udev
@@ -2313,7 +2291,6 @@ soundtouch
 source-highlight
 soxr
 spandsp
-spdlog
 spectacle
 speech-dispatcher
 speech-dispatcher-espeak-ng
@@ -2331,6 +2308,7 @@ sqlite-libs
 squashfs-tools
 sratom
 srt-libs
+sso-mib-libs
 sssd-client
 sssd-common
 sssd-kcm
@@ -2404,13 +2382,8 @@ tesseract-libs
 tesseract-tessdata-doc
 thermald
 thrift
-tigervnc-license
-tigervnc-selinux
-tigervnc-server-common
-tigervnc-x11-server
 time
 tiwilink-firmware
-tk
 tmux
 toolbox
 tpm2-tools
@@ -2499,14 +2472,12 @@ volume_key-libs
 vpnc
 vpnc-script
 vte291
-vte291-gtk4
 vte-profile
 vulkan-loader
 vulkan-tools
 vvdec-libs
 vvenc-libs
 wavpack
-waydroid-selinux
 wayland-utils
 webrtc-audio-processing
 wget2
@@ -2559,12 +2530,10 @@ xmlsec1
 xmlsec1-openssl
 xmodmap
 xone-kmod-common
-xorg-x11-drv-dummy
 xorg-x11-drv-libinput
 xorg-x11-nvidia
 xorg-x11-server-common
 xorg-x11-server-Xorg
-xorg-x11-server-Xvfb
 xorg-x11-server-Xwayland
 xorg-x11-xauth
 xorg-x11-xinit
@@ -2572,10 +2541,7 @@ xorriso
 xprop
 xrandr
 xrdb
-xrdp
-xrdp-selinux
 xset
-xsetroot
 xsettingsd
 xvidcore
 xwaylandvideobridge
