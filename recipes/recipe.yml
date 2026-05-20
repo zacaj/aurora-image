@@ -41,8 +41,10 @@ modules:
       # --- IME / international input ---
       - fcitx5-chewing
       - fcitx5-chinese-addons
+      - fcitx5-chinese-addons-data
       - fcitx5-configtool
       - fcitx5-gtk
+      - fcitx5-gtk4
       - fcitx5-hangul
       - fcitx5-libthai
       - fcitx5-m17n
