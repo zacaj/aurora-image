@@ -11,7 +11,7 @@ IMAGE="ghcr.io/ublue-os/aurora-dx-nvidia-open:stable"
 
 if podman pull "$IMAGE" 2>/dev/null; then
     echo "Generating packages.lock from pulled image ..."
-    podman run --rm "$IMAGE" rpm -qa --queryformat '%{NAME}\n' | sort > "$REPO_ROOT/packages.lock"
+    podman run --rm "$IMAGE" rpm -qa --queryformat '%{NAME}\n' | LC_ALL=C sort > "$REPO_ROOT/packages.lock"
 else
     echo "Could not pull image (disk space?). Falling back to live system minus layered packages ..."
     LAYERED=$(rpm-ostree status --json | python3 -c "
@@ -24,7 +24,7 @@ for field in ('packages', 'requested-packages', 'requested-local-packages'):
 print('\n'.join(sorted(pkgs)))
 ")
     comm -23 \
-        <(rpm -qa --queryformat '%{NAME}\n' | sort) \
+        <(rpm -qa --queryformat '%{NAME}\n' | LC_ALL=C sort) \
         <(echo "$LAYERED" | sort) \
         > "$REPO_ROOT/packages.lock"
 fi

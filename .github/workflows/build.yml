@@ -26,8 +26,8 @@ jobs:
           docker pull ghcr.io/ublue-os/aurora-dx-nvidia-open:stable
           NEW=$(comm -23 \
             <(docker run --rm ghcr.io/ublue-os/aurora-dx-nvidia-open:stable \
-                rpm -qa --queryformat '%{NAME}\n' | sort) \
-            <(sort packages.lock))
+                rpm -qa --queryformat '%{NAME}\n' | LC_ALL=C sort) \
+            <(LC_ALL=C sort packages.lock))
           if [ -n "$NEW" ]; then
             echo "::error::New packages in upstream Aurora image require approval."
             echo "Run 'scripts/update-lock.sh' locally and commit packages.lock to approve:"
