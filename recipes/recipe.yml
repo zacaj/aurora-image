@@ -1,3 +1,5 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 name: aurora-custom
 description: Custom Aurora DX NVIDIA image for zacaj
 base-image: ghcr.io/ublue-os/aurora-dx-nvidia-open
@@ -23,43 +25,43 @@ modules:
       - x11vnc
       - xorgxrdp-glamor
       - xpra
-    # remove:
+    remove:
       # Aurora-specific packages — uncomment to remove
       #
       # --- Input devices / peripherals ---
       # - input-remapper        # GUI for remapping input devices
       # - openrgb-udev-rules    # RGB lighting controller udev rules
-      # - oversteer-udev        # Steering wheel / game controller udev
+      - oversteer-udev        # Steering wheel / game controller udev
       # - solaar-udev           # Logitech device udev rules
-      # - kairpods              # AirPods battery/controls in KDE
+      - kairpods              # AirPods battery/controls in KDE
       #
       # --- Audio/streaming ---
       # - sunshine              # Moonlight game streaming server
       #
       # --- IME / international input ---
-      # - fcitx5-chewing
-      # - fcitx5-chinese-addons
-      # - fcitx5-configtool
-      # - fcitx5-gtk
-      # - fcitx5-hangul
-      # - fcitx5-libthai
-      # - fcitx5-m17n
-      # - fcitx5-mozc
-      # - fcitx5-qt
-      # - fcitx5-sayura
-      # - fcitx5-unikey
-      # - kcm-fcitx5
+      - fcitx5-chewing
+      - fcitx5-chinese-addons
+      - fcitx5-configtool
+      - fcitx5-gtk
+      - fcitx5-hangul
+      - fcitx5-libthai
+      - fcitx5-m17n
+      - fcitx5-mozc
+      - fcitx5-qt
+      - fcitx5-sayura
+      - fcitx5-unikey
+      - kcm-fcitx5
       #
       # --- Enterprise auth (Kerberos / Samba) ---
-      # - krb5-workstation
+      - krb5-workstation
       # - samba-winbind
       # - samba-winbind-clients
       #
       # --- YubiKey / hardware security keys ---
-      # - yubikey-manager
-      # - pam_yubico
-      # - pamu2fcfg
-      # - pam-u2f
+      - yubikey-manager
+      - pam_yubico
+      - pamu2fcfg
+      - pam-u2f
       #
       # --- Backup tools ---
       # - borgbackup
@@ -71,7 +73,7 @@ modules:
       # - zsh
       #
       # --- Miscellaneous ---
-      # - uld                   # Samsung printer driver
+      - uld                   # Samsung printer driver
       # - tailscale             # Tailscale VPN
       #
       # --- DX variant extras ---
@@ -114,6 +116,10 @@ modules:
         # rm -rf /usr/share/wallpapers/aurora-wallpaper-{1..12}
         # rm -rf /usr/share/wallpapers/greg-rakozy-aurora
         # rm -rf /usr/share/wallpapers/jonatan-pie-aurora
+        rm -rf /usr/share/wallpapers/looking_towards_the_future
+        rm -rf /usr/share/wallpapers/aurora-wallpaper-*
+        rm -rf /usr/share/wallpapers/FlyingKonqui
+        rm -rf /usr/share/wallpapers/ScarletTree
         #
         # Logo / icon assets
         # rm -f /usr/share/pixmaps/aurora-banner.svg
