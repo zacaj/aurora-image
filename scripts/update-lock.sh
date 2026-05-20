@@ -4,8 +4,9 @@
 #
 # Each line in packages.lock is annotated with:
 #   - a dash prefix indicating dependency depth (top-level packages have no prefix)
-#   - a trailing [parent1, parent2] showing which top-level packages require it
-#     (or [all] if more than half of top-level packages do)
+#   - top-level packages get a trailing  # summary (size)  annotation
+#   - dependency packages get a trailing  [parent1, parent2]  listing which
+#     top-level packages require them (or [all] if more than half do)
 #
 # Pulls the upstream image if possible; falls back to reading from the live
 # running system (minus layered packages) if disk space is insufficient.
@@ -90,11 +91,31 @@ for pkg in all_pkgs:
     if pkg not in depth:
         depth[pkg] = 0
 
+# Summary and installed size for top-level packages
+def fmt_size(n):
+    try:
+        b = int(n)
+    except (ValueError, TypeError):
+        return '?'
+    if b >= 1_000_000:
+        return f'{b / 1_000_000:.1f} MB'
+    if b >= 1_000:
+        return f'{b // 1_000} KB'
+    return f'{b} B'
+
+pkg_info = {}
+for line in run('rpm', '-qa', '--qf', '%{NAME}\t%{SUMMARY}\t%{SIZE}\n').splitlines():
+    parts = line.split('\t', 2)
+    if len(parts) == 3:
+        pkg_info[parts[0]] = (parts[1], fmt_size(parts[2]))
+
 lines = []
 for pkg in sorted(all_pkgs):
     d = depth[pkg]
     if d == 0:
-        lines.append(pkg)
+        summary, size = pkg_info.get(pkg, ('', ''))
+        meta = f'  # {summary} ({size})' if summary else ''
+        lines.append(pkg + meta)
     else:
         pkg_parents = sorted(parents[pkg])
         comment = '[all]' if len(pkg_parents) > n_top // 2 \
