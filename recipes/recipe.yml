@@ -22,7 +22,7 @@ modules:
       - x11vnc
       - xorgxrdp-glamor
       - xpra
-    remove:
+    # remove:
       # Aurora-specific packages — uncomment to remove
       #
       # --- Input devices / peripherals ---
