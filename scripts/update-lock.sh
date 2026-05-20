@@ -144,4 +144,13 @@ print('\n'.join(sorted(pkgs)))
 fi
 
 echo "Done ($(wc -l < "$REPO_ROOT/packages.lock") packages). Review the diff, then commit to approve:"
-git -C "$REPO_ROOT" diff packages.lock
+# Strip trailing annotations (# summary or [parents]) to show only package name changes
+# Create a stripped version and diff against it
+STRIPPED=$(mktemp)
+trap "rm -f '$STRIPPED'" EXIT
+sed -E 's/  # .*$//; s/  \[.*\]$//' "$REPO_ROOT/packages.lock" > "$STRIPPED"
+# Check if stripped versions differ; only show diff if they do
+if ! diff -q "$STRIPPED" "$REPO_ROOT/packages.lock" > /dev/null 2>&1; then
+  diff -u "$STRIPPED" "$REPO_ROOT/packages.lock" | grep -E '^[-+]' | \
+    sed 's/^[-+]/[[-+]/'
+fi
