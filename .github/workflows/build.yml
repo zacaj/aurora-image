@@ -26,7 +26,7 @@ jobs:
           podman pull ghcr.io/ublue-os/aurora-dx-nvidia-open:stable
           NEW=$(comm -23 \
             <(podman run --rm ghcr.io/ublue-os/aurora-dx-nvidia-open:stable \
-                rpm -qa --queryformat '%{NAME}\n' | LC_ALL=C sort) \
+                rpm -qa --queryformat '%{NAME}\n' | LC_ALL=C sort -u) \
             <(sed 's/^-*//; s/  [#[].*$//' packages.lock | LC_ALL=C sort))
           if [ -n "$NEW" ]; then
             echo "::error::New packages in upstream Aurora image require approval."
