@@ -104,18 +104,11 @@ modules:
         # Install vendor RPMs directly from their release pages.
         # Update these URLs when new versions are released.
         RUSTDESK_VER="1.4.6"
-        curl -fsSL -o /tmp/rustdesk.rpm \
-          "https://github.com/rustdesk/rustdesk/releases/download/${RUSTDESK_VER}/rustdesk-${RUSTDESK_VER}-0.x86_64.rpm"
-        rpm-ostree install /tmp/rustdesk.rpm
-        rm /tmp/rustdesk.rpm
+        rpm-ostree install "https://github.com/rustdesk/rustdesk/releases/download/${RUSTDESK_VER}/rustdesk-${RUSTDESK_VER}-0.x86_64.rpm"
 
         # RealVNC Viewer — download URL from https://www.realvnc.com/en/connect/download/viewer/linux/
-        # Note: RealVNC RPM is unsigned, so we extract and install files directly
-        REALVNC_VER="7.15.0"
-        curl -fsSL -o /tmp/realvnc.rpm \
-          "https://downloads.realvnc.com/download/file/viewer.files/VNC-Viewer-${REALVNC_VER}-Linux-x64.rpm"
-        cd / && rpm2cpio /tmp/realvnc.rpm | cpio -idmv
-        rm /tmp/realvnc.rpm
+        REALVNC_VER="7.15.1"
+        rpm -ivh --nodigest --nofiledigest "https://downloads.realvnc.com/download/file/viewer.files/VNC-Viewer-${REALVNC_VER}-Linux-x64.rpm"
 
   - type: script
     snippets:
