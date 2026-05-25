@@ -25,7 +25,8 @@ If you're running Aurora and want to switch to this custom image:
 
 ```bash
 # Rebase to the custom image
-sudo rpm-ostree rebase ostree-remote-registry:ghcr.io/zacaj/aurora-custom:latest
+sudo sed -i 's/^enabled_metadata=1/enabled_metadata=0/' /etc/yum.repos.d/fedora-multimedia.repo
+sudo rpm-ostree rebase ostree-image-signed:docker://ghcr.io/zacaj/aurora-custom:latest --uninstall rustdesk --uninstall realvnc-vnc-viewer
 
 # Reboot to apply changes
 sudo systemctl reboot
@@ -37,7 +38,7 @@ If you need to go back to standard Aurora:
 
 ```bash
 # Rebase back to Aurora
-sudo rpm-ostree rebase ostree-remote-registry:ghcr.io/ublue-os/aurora-dx-nvidia-open:stable
+sudo rpm-ostree rebase ostree-image-signed:docker://ghcr.io/ublue-os/aurora-dx-nvidia-open:stable
 
 # Reboot
 sudo systemctl reboot
