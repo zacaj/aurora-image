@@ -75,6 +75,13 @@ modules:
       - fish  # handled by brew
       # - zsh
       #
+      # --- Wallpaper engine (dynamic backgrounds) ---
+      - plasma-wallpapers-dynamic
+      - plasma-wallpapers-dynamic-builder
+      - plasma-wallpapers-dynamic-builder-bash-completion
+      - plasma-wallpapers-dynamic-builder-fish-completion
+      - plasma-wallpapers-dynamic-builder-zsh-completion
+      #
       # --- Miscellaneous ---
       - uld                   # Samsung printer driver
       # - tailscale             # Tailscale VPN
@@ -103,11 +110,11 @@ modules:
         rm /tmp/rustdesk.rpm
 
         # RealVNC Viewer — download URL from https://www.realvnc.com/en/connect/download/viewer/linux/
-        # Note: RealVNC RPM is unsigned, so we use --allow-unsigned
-        REALVNC_VER="7.15.1"
+        # Note: RealVNC RPM is unsigned, so we extract and install files directly
+        REALVNC_VER="7.15.0"
         curl -fsSL -o /tmp/realvnc.rpm \
           "https://downloads.realvnc.com/download/file/viewer.files/VNC-Viewer-${REALVNC_VER}-Linux-x64.rpm"
-        rpm-ostree install --allow-unsigned /tmp/realvnc.rpm
+        cd / && rpm2cpio /tmp/realvnc.rpm | cpio -idmv
         rm /tmp/realvnc.rpm
 
   - type: script
