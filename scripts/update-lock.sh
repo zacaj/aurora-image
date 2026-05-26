@@ -15,6 +15,11 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 IMAGE="ghcr.io/ublue-os/aurora-dx-nvidia-open:stable"
 
+NEW=$(comm -23 \
+        <(podman run --rm "IMAGE" \
+            rpm -qa --queryformat '%{NAME}\n' | LC_ALL=C sort -u) \
+        <(sed 's/^-*//; s/  [#[].*$//' packages.lock | LC_ALL=C sort))
+
 # Python script that builds the RPM dependency graph and emits annotated output.
 # Optional env var EXCLUDE_PKGS: newline-separated package names to remove from
 # the analysis (used by the fallback path to strip rpm-ostree layered packages).
@@ -153,4 +158,6 @@ sed -E 's/  # .*$//; s/  \[.*\]$//' "$REPO_ROOT/packages.lock" > "$STRIPPED"
 if ! diff -q "$STRIPPED" "$REPO_ROOT/packages.lock" > /dev/null 2>&1; then
   diff -u "$STRIPPED" "$REPO_ROOT/packages.lock" | grep -E '^[-+]' | \
     sed 's/^[-+]/[[-+]/'
+
+    echo "NEW: $NEW"
 fi
