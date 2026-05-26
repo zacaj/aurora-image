@@ -28,6 +28,9 @@ modules:
     remove:
       # Aurora-specific packages — uncomment to remove
       #
+      # --- Terminals ---
+      - konsole              # Use ptyxis instead
+      #
       # --- Input devices / peripherals ---
       # - input-remapper        # GUI for remapping input devices
       # - openrgb-udev-rules    # RGB lighting controller udev rules
@@ -109,6 +112,17 @@ modules:
         # RealVNC Viewer — download URL from https://www.realvnc.com/en/connect/download/viewer/linux/
         REALVNC_VER="7.15.1"
         rpm -ivh --nodigest --nofiledigest "https://downloads.realvnc.com/download/file/viewer.files/VNC-Viewer-${REALVNC_VER}-Linux-x64.rpm"
+
+  - type: script
+    snippets:
+      - |
+        # Set ptyxis as the default terminal application
+        mkdir -p /etc/xdg
+        {
+          echo "[Default Applications]"
+          echo "x-scheme-handler/ptyxis=ptyxis.desktop"
+          echo "application/x-terminal-emulator=ptyxis.desktop"
+        } > /etc/xdg/mimeapps.list
 
   - type: script
     snippets:
