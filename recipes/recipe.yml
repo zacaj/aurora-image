@@ -15,6 +15,7 @@ modules:
       - btrfs-assistant
       - cronie-anacron
       - gparted
+      - gstreamer1-plugin-gtk4
       - keyd
       - kwin-x11
       - plasma-workspace-x11
