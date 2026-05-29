@@ -29,7 +29,7 @@ modules:
       # Aurora-specific packages — uncomment to remove
       #
       # --- Terminals ---
-      - konsole              # Use ptyxis instead
+      - konsole5             # Use ptyxis instead (package is konsole5 on F44, not konsole)
       #
       # --- Input devices / peripherals ---
       # - input-remapper        # GUI for remapping input devices
