@@ -134,7 +134,9 @@ modules:
         # rm -rf /usr/share/wallpapers/aurora-wallpaper-{1..12}
         # rm -rf /usr/share/wallpapers/greg-rakozy-aurora
         # rm -rf /usr/share/wallpapers/jonatan-pie-aurora
+        rm -rf /usr/share/backgrounds/aurora/looking_towards_the_future
         rm -rf /usr/share/wallpapers/looking_towards_the_future
+        rm -rf /usr/share/backgrounds/aurora/aurora-wallpaper-*
         rm -rf /usr/share/wallpapers/aurora-wallpaper-*
         rm -rf /usr/share/wallpapers/FlyingKonqui
         rm -rf /usr/share/wallpapers/ScarletTree
