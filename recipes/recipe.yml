@@ -117,6 +117,26 @@ modules:
   - type: script
     snippets:
       - |
+        # Wrap nvidia-container-runtime-hook so it no-ops on hosts without an
+        # NVIDIA driver. Lets this image run on non-NVIDIA hardware without
+        # breaking every container launch (docker --gpus / DeviceRequests
+        # otherwise fail at "nvml error: driver not loaded").
+        set -euo pipefail
+        HOOK=/usr/bin/nvidia-container-runtime-hook
+        if [ -f "$HOOK" ] && [ ! -f "${HOOK}.real" ]; then
+          mv "$HOOK" "${HOOK}.real"
+          cat > "$HOOK" <<'EOF'
+        #!/usr/bin/sh
+        # No driver loaded -> skip the hook so containers can still launch.
+        [ -e /dev/nvidiactl ] || exit 0
+        exec /usr/bin/nvidia-container-runtime-hook.real "$@"
+        EOF
+          chmod 0755 "$HOOK"
+        fi
+
+  - type: script
+    snippets:
+      - |
         # Set ptyxis as the default terminal application
         mkdir -p /etc/xdg
         {
