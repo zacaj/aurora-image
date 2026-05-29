@@ -30,7 +30,7 @@ modules:
       # Aurora-specific packages — uncomment to remove
       #
       # --- Terminals ---
-      - konsole5             # Use ptyxis instead (package is konsole5 on F44, not konsole)
+      - konsole              # Use ptyxis instead
       #
       # --- Input devices / peripherals ---
       # - input-remapper        # GUI for remapping input devices
@@ -137,6 +137,7 @@ modules:
   - type: script
     snippets:
       - |
+        rpm-ostree remove konsole5 || echo "no konsole5"
         # Set ptyxis as the default terminal application
         mkdir -p /etc/xdg
         {

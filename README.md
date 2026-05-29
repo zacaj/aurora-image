@@ -19,6 +19,8 @@ The image is built automatically on every push via GitHub Actions using [BlueBui
 
 Built images are published to `ghcr.io/zacaj/aurora-custom:latest`.
 
+To build locally, use `bluebuild build recipes/recipe.yml`
+
 ## Switching to the Custom Image
 
 If you're running Aurora and want to switch to this custom image:
