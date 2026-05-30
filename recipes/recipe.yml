@@ -149,6 +149,11 @@ modules:
   - type: script
     snippets:
       - |
+        curl -fsSL https://patrickjaja.github.io/claude-desktop-bin/install-rpm.sh | sudo bash
+        
+  - type: script
+    snippets:
+      - |
         # Remove Aurora branding/files injected directly into the image (not via packages).
         # These cannot be removed with rpm-ostree override remove — only shell rm works.
         #
