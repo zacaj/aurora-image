@@ -150,6 +150,7 @@ modules:
     snippets:
       - |
         curl -fsSL https://patrickjaja.github.io/claude-desktop-bin/install-rpm.sh | sudo bash
+        sudo dnf install -y claude-desktop-bin
         
   - type: script
     snippets:
