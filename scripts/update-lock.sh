@@ -134,6 +134,8 @@ PYEOF
 if podman pull "$IMAGE" 2>/dev/null; then
     echo "Generating packages.lock from pulled image ..."
     echo "$ANALYZE_PY" | podman run --rm -i "$IMAGE" python3 - > "$REPO_ROOT/packages.lock"
+    podman inspect "$IMAGE" --format '{{ index .Labels "org.opencontainers.image.version" }}' \
+        > "$REPO_ROOT/upstream-version"
 else
     echo "Could not pull image (disk space?). Falling back to live system minus layered packages ..."
     LAYERED=$(rpm-ostree status --json | python3 -c "
