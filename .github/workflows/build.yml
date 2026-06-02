@@ -14,12 +14,14 @@ jobs:
     name: Build Custom Image
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write       # Needed to push git tags after a successful build
       packages: write
       id-token: write       # Required for keyless cosign signing via GitHub OIDC
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0    # Full history needed for git rev-list count and tag push
 
       - name: Check for unapproved upstream packages
         run: |
@@ -37,6 +39,7 @@ jobs:
           echo "Package whitelist OK"
 
       - name: Stamp version label
+        id: version
         run: |
           BASE_VER=$(podman inspect ghcr.io/ublue-os/aurora-dx-nvidia-open:stable \
             --format '{{ index .Labels "org.opencontainers.image.version" }}')
@@ -44,6 +47,7 @@ jobs:
           COUNT=$(( $(git rev-list --count "${LAST_BASE_COMMIT}..HEAD") + 1 ))
           VERSION="${BASE_VER}.${COUNT}"
           echo "Stamping version: ${VERSION}"
+          echo "value=${VERSION}" >> "$GITHUB_OUTPUT"
           export VERSION
           yq e '.labels["org.opencontainers.image.version"] = strenv(VERSION)' \
             -i recipes/recipe.yml
@@ -56,3 +60,14 @@ jobs:
           cosign_private_key: ${{ secrets.SIGNING_SECRET }}
           pr_event_number: ${{ github.event.number }}
           skip_checkout: 'true'       # We already checked out above; preserves recipe modifications
+
+      - name: Tag commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          VERSION="v${{ steps.version.outputs.value }}"
+          if git tag "$VERSION" && git push origin "$VERSION"; then
+            echo "Tagged ${VERSION}"
+          else
+            echo "Tag ${VERSION} already exists, skipping"
+          fi
