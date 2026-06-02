@@ -23,6 +23,7 @@ modules:
       - snapper
       - waydroid
       - webkitgtk6.0
+      - webkit2gtk4.1
       - x11vnc
       - xorgxrdp-glamor
       - xpra
