@@ -16,7 +16,7 @@ REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 IMAGE="ghcr.io/ublue-os/aurora-dx-nvidia-open:stable"
 
 NEW=$(comm -23 \
-        <(podman run --rm "IMAGE" \
+        <(podman run --rm "$IMAGE" \
             rpm -qa --queryformat '%{NAME}\n' | LC_ALL=C sort -u) \
         <(sed 's/^-*//; s/  [#[].*$//' packages.lock | LC_ALL=C sort))
 
