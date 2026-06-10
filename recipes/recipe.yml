@@ -32,7 +32,7 @@ modules:
       #
       # --- Terminals ---
       - konsole              # Use ptyxis instead
-      - konsole5             # KDE5 compat provider; rpm-ostree swaps this in when konsole is removed
+      # - konsole5             # KDE5 compat provider; rpm-ostree swaps this in when konsole is removed
       - plasma-drkonqi       # KDE crash reporter; the only package that requires konsole/konsole5
       #
       # --- Input devices / peripherals ---
