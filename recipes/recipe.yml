@@ -23,6 +23,7 @@ modules:
         - kwin-x11
         - plasma-workspace-x11
         - ptyxis
+        - radeontop
         - snapper
         - waydroid
         - webkitgtk6.0
