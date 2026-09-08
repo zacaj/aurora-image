@@ -21,10 +21,12 @@ modules:
         - gstreamer1-plugin-gtk4
         - keyd
         - kwin-x11
+        - nemo
         - plasma-workspace-x11
         - ptyxis
         - radeontop
         - snapper
+        - thunar
         - waydroid
         - webkitgtk6.0
         - webkit2gtk4.1
