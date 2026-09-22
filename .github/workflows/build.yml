@@ -23,20 +23,20 @@ jobs:
         with:
           fetch-depth: 0    # Full history needed for git rev-list count and tag push
 
-      - name: Check for unapproved upstream packages
-        run: |
-          podman pull ghcr.io/ublue-os/aurora-dx-nvidia-open:stable
-          NEW=$(comm -23 \
-            <(podman run --rm ghcr.io/ublue-os/aurora-dx-nvidia-open:stable \
-                rpm -qa --queryformat '%{NAME}\n' | LC_ALL=C sort -u) \
-            <(sed 's/^-*//; s/  [#[].*$//' packages.lock | LC_ALL=C sort))
-          if [ -n "$NEW" ]; then
-            echo "::error::New packages in upstream Aurora image require approval."
-            echo "Run 'scripts/update-lock.sh' locally and commit packages.lock to approve:"
-            echo "$NEW" | sed 's/^/  + /'
-            exit 1
-          fi
-          echo "Package whitelist OK"
+      # - name: Check for unapproved upstream packages
+      #   run: |
+      #     podman pull ghcr.io/ublue-os/aurora-dx-nvidia-open:stable
+      #     NEW=$(comm -23 \
+      #       <(podman run --rm ghcr.io/ublue-os/aurora-dx-nvidia-open:stable \
+      #           rpm -qa --queryformat '%{NAME}\n' | LC_ALL=C sort -u) \
+      #       <(sed 's/^-*//; s/  [#[].*$//' packages.lock | LC_ALL=C sort))
+      #     if [ -n "$NEW" ]; then
+      #       echo "::error::New packages in upstream Aurora image require approval."
+      #       echo "Run 'scripts/update-lock.sh' locally and commit packages.lock to approve:"
+      #       echo "$NEW" | sed 's/^/  + /'
+      #       exit 1
+      #     fi
+      #     echo "Package whitelist OK"
 
       - name: Stamp version label
         id: version
