@@ -41,8 +41,8 @@ jobs:
       - name: Stamp version label
         id: version
         run: |
-          BASE_VER=$(podman inspect ghcr.io/ublue-os/aurora-dx-nvidia-open:stable \
-            --format '{{ index .Labels "org.opencontainers.image.version" }}')
+          BASE_VER=$(skopeo inspect docker://ghcr.io/ublue-os/aurora-dx-nvidia-open:stable \
+            | jq -r '.Labels["org.opencontainers.image.version"]')
           LAST_BASE_COMMIT=$(git log -1 --format=%H -- upstream-version)
           COUNT=$(( $(git rev-list --count "${LAST_BASE_COMMIT}..HEAD") + 1 ))
           VERSION="${BASE_VER}.${COUNT}"
