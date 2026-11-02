@@ -111,6 +111,13 @@ modules:
         # - virt-v2v
         # - kcli                  # Cloud/VM provisioning CLI
 
+  # Vendor RPMs committed to the repo (files/rpms/). Staged outside /tmp, which
+  # the files module can't target; removed again after install below.
+  - type: files
+    files:
+      - source: rpms
+        destination: /usr/share/aurora-custom/rpms
+
   - type: script
     snippets:
       - |
@@ -122,13 +129,14 @@ modules:
         RUSTDESK_VER="1.4.6"
         dnf5 install -y --nogpgcheck "https://github.com/rustdesk/rustdesk/releases/download/${RUSTDESK_VER}/rustdesk-${RUSTDESK_VER}-0.x86_64.rpm"
 
-        # RealVNC Viewer — download URL from https://www.realvnc.com/en/connect/download/viewer/linux/
+        # RealVNC Classic Viewer (v7) — local copy in files/rpms/. The v8 "Connect
+        # Viewer" forces account sign-in, so v7 is kept for direct LAN connections.
         # Kept as a raw `rpm -i` because the RealVNC RPM ships weak digests that
         # need --nodigest/--nofiledigest; rpm -i is ostree-independent so it
         # still works in the bootc build.
         REALVNC_VER="7.15.1"
-        rpm -ivh --nodigest --nofiledigest "https://downloads.realvnc.com/download/file/realvnc-connect-viewer/RealVNC-Connect-Viewer-8.4.1-Linux-x64.rpm"
-        # rpm -ivh --nodigest --nofiledigest "https://downloads.realvnc.com/download/file/viewer.files/VNC-Viewer-${REALVNC_VER}-Linux-x64.rpm"
+        rpm -ivh --nodigest --nofiledigest "/usr/share/aurora-custom/rpms/VNC-Viewer-${REALVNC_VER}-Linux-x64.rpm"
+        rm -rf /usr/share/aurora-custom/rpms
 
   - type: script
     snippets:
