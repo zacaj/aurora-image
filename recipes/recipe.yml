@@ -20,9 +20,12 @@ modules:
         - gparted
         - gstreamer1-plugin-gtk4
         - keyd
-        - kwin-x11
+        # Pinned: Fedora updates has Plasma 6.8, whose kwin/plasma-workspace *obsolete* the -x11
+        # packages, so an unpinned request pulls a partial 6.8 upgrade onto the 6.7 base (broken).
+        # Unpin/remove once the Aurora base itself moves to 6.8 (X11 then comes from ~/sonic).
+        - kwin-x11-6.7.5
         - nemo
-        - plasma-workspace-x11
+        - plasma-workspace-x11-6.7.5
         - ptyxis
         - radeontop
         - snapper
