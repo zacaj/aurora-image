@@ -6,6 +6,17 @@ base-image: ghcr.io/ublue-os/aurora-dx-nvidia-open
 image-version: stable
 
 modules:
+  # Block Plasma 6.8 for every later dnf step (dnf module, vendor RPMs, claude-desktop).
+  # Fedora updates already has 6.8.x, but the Aurora base is 6.7.5; any dependency
+  # that drags in a subset of 6.8 packages (found 58 of them in 44.20261103.1.6) leaves a
+  # broken mixed 6.7/6.8 desktop. Remove this once the Aurora base itself moves to 6.8.
+  - type: script
+    snippets:
+      - |
+        set -euo pipefail
+        mkdir -p /etc/dnf/libdnf5.conf.d
+        printf '[main]\nexcludepkgs=*-6.8.*,*:6.8.*\n' > /etc/dnf/libdnf5.conf.d/50-block-plasma-6.8.conf
+
   - type: dnf
     repos:
       # Built-in helper installs both rpmfusion-free and rpmfusion-nonfree
