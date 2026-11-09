@@ -6,16 +6,23 @@ base-image: ghcr.io/ublue-os/aurora-dx-nvidia-open
 image-version: stable
 
 modules:
-  # Block Plasma 6.8 for every later dnf step (dnf module, vendor RPMs, claude-desktop).
-  # Fedora updates already has 6.8.x, but the Aurora base is 6.7.5; any dependency
-  # that drags in a subset of 6.8 packages (found 58 of them in 44.20261103.1.6) leaves a
-  # broken mixed 6.7/6.8 desktop. Remove this once the Aurora base itself moves to 6.8.
+  # The upstream Aurora base is now Plasma 6.8 (it has no X11 session), but we need
+  # kwin-x11, which only exists at 6.7.5. Installing the 6.7.5 -x11 pins downgraded only
+  # kwin/plasma-workspace and left ~88 other packages at 6.8 (broken mix). So: downgrade
+  # EVERY 6.8 package to 6.7.5, and exclude 6.8 so later dnf steps can't pull it back.
+  # Remove this once X11 is handled differently (e.g. ~/sonic) or 6.8 is wanted.
   - type: script
     snippets:
       - |
         set -euo pipefail
         mkdir -p /etc/dnf/libdnf5.conf.d
         printf '[main]\nexcludepkgs=*-6.8.*,*:6.8.*\n' > /etc/dnf/libdnf5.conf.d/50-block-plasma-6.8.conf
+        PKGS=$(rpm -qa --qf '%{NAME} %{VERSION}\n' | awk '$2 ~ /^6\.8\.[0-9]+$/ {print $1"-6.7.5"}' | sort -u | tr '\n' ' ')
+        dnf5 install -y --allow-downgrade $PKGS
+        if rpm -qa --qf '%{NAME} %{VERSION}\n' | awk '$2 ~ /^6\.8\.[0-9]+$/' | grep .; then
+          echo "ERROR: Plasma 6.8 packages remain" >&2
+          exit 1
+        fi
 
   - type: dnf
     repos:
